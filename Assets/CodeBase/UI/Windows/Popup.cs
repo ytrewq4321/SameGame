@@ -4,18 +4,23 @@ using UnityEngine.UI;
 
 namespace Assets.CodeBase.UI.Windows
 {
-    public class WinWindow
+    public class Popup : MonoBehaviour
     {
-        [SerializeField] private Button _nextLevelButton;
+        [SerializeField] private Button _button;
+
+        public void Awake()
+        {
+            _button.onClick.AddListener(()=>gameObject.SetActive(false));
+        }
 
         public void AddListener(UnityAction action)
         {
-            _nextLevelButton.onClick.AddListener(action);
+            _button.onClick.AddListener(action);
         }
 
         public void RemoveListener()
         {
-            _nextLevelButton.onClick.RemoveAllListeners();
+            _button.onClick.RemoveAllListeners();
         }
 
         private void OnDestroy()

@@ -69,7 +69,6 @@ namespace Assets.CodeBase.Logic
                         else if (!IsMoveExist())
                         {
                             GameOver?.Invoke();
-                            Debug.Log("GameOver");
                             return;
                         }
                        
@@ -139,6 +138,8 @@ namespace Assets.CodeBase.Logic
 
         public void CreateGrid()
         {
+            DespawnGrid();
+
             _tileOffset = -0.5f * (float2)(_gridController.GridSize - 1);
             _tilesView = new Grid2D<Tile>(_gridController.GridSize);
 
@@ -146,9 +147,19 @@ namespace Assets.CodeBase.Logic
             {
                 for (int x = 0; x < _tilesView.Size.x; x++)
                 {
-                    if(_tilesView[x, y] != null)
-                       _tilesView[x, y].Despawn();
                     _tilesView[x,y]= SpawnTile(_gridController.GetTileState(x, y), x, y);
+                }
+            }
+        }
+
+        private void DespawnGrid()
+        {
+            for (int y = 0; y < _tilesView.Size.y; y++)
+            {
+                for (int x = 0; x < _tilesView.Size.x; x++)
+                {
+                    if (_tilesView[x, y] != null)
+                        _tilesView[x, y].Despawn();
                 }
             }
         }
@@ -158,7 +169,8 @@ namespace Assets.CodeBase.Logic
             GameObject currentPrefabTile = _tilePrefabs[(int)tileState-1];
             Vector3 position = new Vector3(x + _tileOffset.x, y + _tileOffset.y);
 
-            return _tileFactory.CreateTile(currentPrefabTile,position,transform);
+
+            return _tileFactory.CreateTile(currentPrefabTile,position);
         }
 
         private float2 ScreenToTileSpace(Vector3 screenPosition)

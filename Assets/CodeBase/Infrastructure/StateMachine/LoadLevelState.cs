@@ -3,7 +3,6 @@ using CodeBase.Infrastructure.Factory;
 using CodeBase.Logic;
 using CodeBase.StaticData;
 using CodeBase.UI.Services.Factory;
-using UnityEngine;
 
 namespace CodeBase.Infrastructure.StateMachine
 {
@@ -16,12 +15,12 @@ namespace CodeBase.Infrastructure.StateMachine
         private readonly IStaticDataService _staticDataService;
         private readonly IUIFactory _uiFactory;
         private readonly GridView _gridView;
+        private readonly LevelController _levelController;
 
         public LoadLevelState(IGameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingCurtain curtain,
             IGameFactory gameFactory, IStaticDataService staticDataService,
-            IUIFactory uiFactory, GridView gridView)
+            IUIFactory uiFactory, GridView gridView, LevelController levelController)
         {
-
             _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
             _curtain = curtain;
@@ -29,8 +28,9 @@ namespace CodeBase.Infrastructure.StateMachine
             _staticDataService = staticDataService;
             _uiFactory = uiFactory;
             _gridView = gridView;
+            _levelController = levelController;
         }
-        
+
 
         public void Enter(string sceneName)
         {
@@ -71,7 +71,14 @@ namespace CodeBase.Infrastructure.StateMachine
 
         private void InitHud()
         {
-            GameObject hud = _gameFactory.CreateHud();
+            Hud hud = _gameFactory.CreateHud();
+           
+            hud.RestartButton.AddListener(_levelController.ResetGame);
+            hud.WinPopup.AddListener(_levelController.NextLevel);
+            hud.LosePopup.AddListener(_levelController.ResetGame);
+
+            _gridView.WinLevel += hud.OpenWinPopup;
+            _gridView.GameOver += hud.OpenLosePopup;
         }
 
         private LevelStaticData GetLevelStaticData() =>

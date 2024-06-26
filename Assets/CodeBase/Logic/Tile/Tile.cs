@@ -28,7 +28,7 @@ namespace Assets.CodeBase.Logic
 
         public Tween Shift(float toX, float speed)
         {
-            float duration = (transform.localPosition.x - toX) / speed;
+            var duration = Mathf.Abs(transform.localPosition.x - toX) / speed;
             return transform.DOMoveX(toX, duration).SetEase(Ease.InCubic);
         }
     }

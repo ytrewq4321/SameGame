@@ -13,9 +13,9 @@ namespace CodeBase.Infrastructure.Factory
             _poolService = poolService;
         }
 
-        public Tile CreateTile(GameObject prefab, Vector3 at,Transform parrent)
+        public Tile CreateTile(GameObject prefab, Vector3 at)
         {
-            var tile =_poolService.Spawn<Tile>(prefab, parrent); 
+            var tile =_poolService.Spawn<Tile>(prefab); 
             tile.transform.position = at;
             return tile;         
         }

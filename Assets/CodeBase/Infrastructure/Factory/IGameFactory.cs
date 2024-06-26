@@ -5,6 +5,6 @@ namespace CodeBase.Infrastructure.Factory
 {
     public interface IGameFactory : IService
     {
-        GameObject CreateHud();
+        Hud CreateHud();
     }
 }

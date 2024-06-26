@@ -19,6 +19,8 @@ namespace CodeBase.Infrastructure
         
         private void Start()
         {
+            Application.targetFrameRate = 60;
+
             _gameStateMachine.RegisterState(_stateFactory.Create<GameBootstrapState>());
             _gameStateMachine.RegisterState(_stateFactory.Create<LoadLevelState>());
             _gameStateMachine.RegisterState(_stateFactory.Create<GameplayState>());

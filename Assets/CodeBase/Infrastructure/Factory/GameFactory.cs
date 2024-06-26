@@ -22,9 +22,9 @@ namespace CodeBase.Infrastructure.Factory
             _instantiator = instantiator;
         }
 
-        public GameObject CreateHud()
+        public Hud CreateHud()
         {
-            GameObject hud = InstantiateRegister(AssetAdress.HudPath);
+            Hud hud = InstantiateRegister(AssetAdress.HudPath).GetComponent<Hud>();
             return hud;
         }
 

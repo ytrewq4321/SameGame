@@ -1,6 +1,5 @@
 ﻿using Assets.CodeBase.Logic;
 using Assets.CodeBase.Services.Input;
-using Assets.CodeBase.UI.Elements;
 using CodeBase.Infrastructure;
 using CodeBase.Infrastructure.AssetManagment;
 using CodeBase.Infrastructure.Factory;
@@ -49,12 +48,17 @@ namespace CodeBase.GameInstaller
             BindScoreData();
 
             BindGridView();
+
+            BindLevelController();
         }
+
+        private void BindLevelController() => Container.Bind<LevelController>().AsSingle();
 
         private void BindScoreData() => Container.Bind<ScoreData>().AsSingle();
         private void BindGridView()
         {
-            var gridView = Container.InstantiatePrefabForComponent<GridView>(Resources.Load(AssetAdress.GridView));
+            var gridViewPrefab = Resources.Load(AssetAdress.GridView);
+            var gridView = Container.InstantiatePrefabForComponent<GridView>(gridViewPrefab);
             Container.Bind<GridView>().FromInstance(gridView).AsSingle();
         }
 
